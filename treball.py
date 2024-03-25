@@ -44,7 +44,106 @@ def accions_a_realitzar():
         return
     if accion == 4:
         eliminarLlibre()
+    if accion == 5:
+        editarLibro()
     
+
+def editarLibro():
+
+    lista = []
+    listaDiccionario = []
+    listaFinal = []
+    listaCamps = []
+    error = 0
+
+    try:
+        with open("Llibres.txt","r") as OpenFile:
+            lectura = OpenFile.readlines()
+
+            for libro in lectura:
+                elemento = libro.strip().replace("|", ",").split(",")
+                lista.append(elemento)
+
+    except FileNotFoundError:
+        print("No se ha encontrado el archivo")
+
+
+    for i in lista:
+        titol, autor, any, genere, isbn = i
+        dic = {"titol": titol, "autor":autor, "any": any, "genere": genere, "isbn": isbn}
+        listaDiccionario.append(dic)
+
+
+    obraModificar = input("Ingresa el nombre de la obra a modificar: ")
+
+    contador = 0
+    for libro in listaDiccionario:
+        obra = libro["titol"]
+        if obra == obraModificar:
+            contador +=1
+        
+    if contador == 1:
+        campoModificar = input("Ingresa un campo a modificar: ")
+        if campoModificar == "titol" or campoModificar == "autor" or campoModificar == "any" or campoModificar == "genere" or campoModificar == "isbn":
+
+            valor = input("Ingresa el valor: ")
+
+            for libro in listaDiccionario:
+                if libro["titol"] == obraModificar:
+                    libro[campoModificar] = valor
+                listaFinal.append(libro)
+
+        else:
+            print("Este campo no exisite")
+
+            with open("Llibres.txt", "w") as file:   
+                for libro in listaDiccionario:
+                    valores = list(libro.values())
+                    listaCamps.append(valores)
+                
+                for i in listaCamps:
+                    obra = i[0] + "|" + i[1] + "|" + i[2] + "|" + i[3] + "|" + i[4] + "\n"
+                    file.writelines(obra)
+            error = 1
+    else:
+        print("La obra solicitada no esta disponible acutalmente")
+
+        with open("Llibres.txt", "w") as file:   
+            for libro in listaDiccionario:
+                valores = list(libro.values())
+                listaCamps.append(valores)
+                
+            for i in listaCamps:
+                obra = i[0] + "|" + i[1] + "|" + i[2] + "|" + i[3] + "|" + i[4] + "\n"
+                file.writelines(obra)
+
+    for libro in listaFinal:
+        valores = list(libro.values())
+        listaCamps.append(valores)
+
+    print("\n")
+
+    if contador == 1 and error != 1:
+
+        print("RESULTADO OBRAS")
+        print("***************")
+
+        id = 1
+
+        for i in listaCamps:
+            libro = " ".join(i)
+            cadena = str(id) + "." + libro
+            id+=1
+            print(cadena)
+
+    try:
+        with open("Llibres.txt", "w") as file:
+            for i in listaCamps:
+                obra = i[0] + "|" + i[1] + "|" + i[2] + "|" + i[3] + "|" + i[4] + "\n"
+                file.writelines(obra)
+
+    except FileNotFoundError:
+        print("El archivo no se ha encontrado")
 
 def eliminarLlibre():
 
