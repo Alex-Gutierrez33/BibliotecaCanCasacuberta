@@ -175,6 +175,7 @@ def eliminarLlibre():
                 contador +=1
 
         if contador == len(lista):
+            print("\n")
             print("ERROR: No se ha encontrado el libro")
 
             with open("Llibres.txt", "w") as file:
@@ -182,27 +183,28 @@ def eliminarLlibre():
                     titol, autor, any, genere, isbn = i
                     linia = titol + "|" + autor + "|" + any + "|" + genere + "|" + isbn + "\n"
                     file.writelines(linia)
+                return
+        else:
 
-        print("LLibres restants: ")
-        print("===================")
-        print("\n")
+            print("LLibres restants: ")
+            print("===================")
 
-        listaMostrar = listaNueva[1:]
-        id = 1
+            listaMostrar = listaNueva[1:]
+            id = 1
 
-        for i in listaMostrar:
-            titol, autor, any, genere, isbn = i
-            print(id, titol)
-            id+=1
-
-        
-        with open("Llibres.txt", "w") as file:
-            for i in listaNueva:
+            for i in listaMostrar:
                 titol, autor, any, genere, isbn = i
-                linia = titol + "|" + autor + "|" + any + "|" + genere + "|" + isbn + "\n"
-                file.writelines(linia)
+                print(id, titol)
+                id+=1
 
-        
+            
+            with open("Llibres.txt", "w") as file:
+                for i in listaNueva:
+                    titol, autor, any, genere, isbn = i
+                    linia = titol + "|" + autor + "|" + any + "|" + genere + "|" + isbn + "\n"
+                    file.writelines(linia)
+
+            
 
 def encriptar(passwd):
     
