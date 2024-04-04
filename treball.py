@@ -46,6 +46,9 @@ def accions_a_realitzar():
         eliminarLlibre()
     if accion == 5:
         editarLibro()
+    if accion == 1:
+        mostrarUnLibro()
+
     
 
 def editarLibro():
@@ -144,6 +147,42 @@ def editarLibro():
 
     except FileNotFoundError:
         print("El archivo no se ha encontrado")
+
+
+def mostrarUnLibro():
+    lista = []
+    contador = 0
+    try:
+        with open("Llibres.txt", "r") as file:
+            lectura = file.readlines()
+
+
+            for i in lectura:
+                libro = i.strip().replace("|", ",").split(",")
+                lista.append(libro)
+    except FileNotFoundError:
+        print("Error el archivo no se ha encontrado!!!")
+
+    libroMostrar = input("Indica el nombre del libro a mostrar: ")
+
+    for i in lista:
+        titol,autor,any,genere,isbn = i
+
+        if titol == libroMostrar:
+            print("El libro que has pedido es:")
+            print("===========================")
+
+            print("Titol:", titol)
+            print("Autor:", autor)                
+            print("Año:", any)
+            print("Genero:", genere)               
+            print("ISBN:", isbn)
+
+            contador+=1
+
+    if contador == 0:
+        print("ERROR: NO SE HA ENCONTRADO EL LIBRO")
+        print("===================================")
 
 def eliminarLlibre():
 
