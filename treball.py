@@ -1,4 +1,6 @@
 import hashlib
+import random
+
 
 def comprovarCrednecials(crendenciales):
     lista = []
@@ -21,6 +23,90 @@ def comprovarCrednecials(crendenciales):
 
     except FileNotFoundError:
         print("L'arxiu no exsisteix")
+
+
+
+def listarlibros():
+    lista=[]
+    contador=1
+    with open("Llibres.txt","r") as file:
+        leer=file.readlines()
+
+        for i in leer:
+            libro=i.strip().replace("|",",").split(",")
+            lista.append(libro)
+        lista=lista[1:]
+
+
+    print ("Libros disponibles:")
+    print ("===================")
+    for i in lista:
+        print (contador,i[0])
+        contador+=1
+
+def anadirLibro():
+    lista=[]
+    obra=[]
+    contador=1
+    flag = True
+        
+    with open("Llibres.txt","r") as file:
+        leer=file.readlines()
+
+        for i in leer:
+            libro=i.strip().replace("|",",").split(",")
+            lista.append(libro)
+
+    titulo=input("Ingresa el nombre de la obra: ")
+    autor= input("Indica el nombre del autor: ")
+    
+    # 978-0-452-28423-4
+
+    num1 = random.randint(100,999)
+    num2 = random.randint(0,9)
+    num3 = random.randint(100,999)
+    num4 = random.randint(10000, 99999)
+    num5 = random.randint(0,9)
+
+    
+    while flag:
+        try:
+            ano=int(input("Ingresa el año de la obra: "))
+        except:
+            print("Error, introduce un numero")
+        else:
+            flag=False
+
+    genero=input("Ingresa el Genero del libro: ")
+    ISBN = str(num1)+"-"+str(num2)+"-"+str(num3)+"-"+str(num4)+"-"+str(num5)
+
+    for libro in lista:
+        for campo in libro:
+            if campo == ISBN:
+                print("ERROR, ISBN IGUAL")
+                return
+
+
+   
+    obra=[titulo, autor, ano, genero, ISBN]
+    lista.append (obra)
+
+  
+    with open("Llibres.txt","w") as file:
+        for libro in lista:     
+            titulo,autor,ano,genero,ISBN=libro
+            linia=titulo+"|"+autor+"|"+str(ano)+"|"+genero+"|"+ISBN+"\n"
+            file.writelines(linia)
+        
+        print("Libro añadido correctamente ")
+        print ("Libros disponibles:")
+        print ("===================")
+        for i in lista:
+            print (contador,i[0])
+            contador+=1
+
+
+       
 
 
 
@@ -48,7 +134,10 @@ def accions_a_realitzar():
         editarLibro()
     if accion == 1:
         mostrarUnLibro()
-
+    if accion == 2:
+        listarlibros()
+    if accion == 3:
+        anadirLibro()
     
 
 def editarLibro():
